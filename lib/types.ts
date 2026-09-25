@@ -1,3 +1,5 @@
+// lib/types.ts
+
 export interface Category {
   id: number;
   name: string;
@@ -6,8 +8,8 @@ export interface Category {
 
 export interface Product {
   id: number;
-  category: number;
-  category_name?: string;
+  category: number; // Foreign Key ID for creating
+  category_name?: string; // For listing display
   name: string;
   regular_price: string;
   discount_price?: string | null;
@@ -20,10 +22,10 @@ export interface Product {
 
 export interface OrderItem {
   id?: number;
-  product: number;
-  product_name?: string;
+  product: number; // Foreign Key ID for creating
+  product_name?: string; // For display
   quantity: number;
-  price?: string;
+  price?: string; // Snapshot price
 }
 
 export interface Order {
@@ -37,13 +39,13 @@ export interface Order {
   total_quantity?: number;
   total_amount?: string;
   status?: 'PENDING' | 'COMPLETED' | 'CANCELLED';
-  items: OrderItem[];
+  items: OrderItem[]; // Nested items required on creation
   created_at?: string;
 }
 
 export interface Employee {
   id: number;
-  employee_id: string;
+  employee_id: string; // "EMP-101" unique code
   name: string;
   designation: string;
   salary: string;
