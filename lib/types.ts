@@ -13,6 +13,8 @@ export interface Product {
   name: string;
   regular_price: string;
   discount_price?: string | null;
+  sizes: string;
+  description: string;
   stock: number;
   image?: string | null;
   is_active: boolean;

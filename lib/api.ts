@@ -65,8 +65,39 @@ export const api = {
   // Products CRUD
   getProducts: () => fetcher<Product[]>('products'),
   getProductDetail: (id: number) => fetcher<Product>(`products/${id}`),
-  createProduct: (data: Partial<Product>) => fetcher<Product>('products', { method: 'POST', body: JSON.stringify(data) }),
-  updateProduct: (id: number, data: Partial<Product>) => fetcher<Product>(`products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  async createProduct(data: FormData | Partial<Product>) {
+    const isFormData = data instanceof FormData;
+    const response = await fetch(`${API_BASE_URL}/products/`, {
+      method: 'POST',
+      headers: isFormData
+        ? {} // Let browser auto-set multipart boundary for FormData
+        : { 'Content-Type': 'application/json' },
+      body: isFormData ? data : JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(JSON.stringify(errorData));
+    }
+    return response.json();
+  },
+
+  async updateProduct(id: number, data: FormData | Partial<Product>) {
+    const isFormData = data instanceof FormData;
+    const response = await fetch(`${API_BASE_URL}/products/${id}/`, {
+      method: 'PUT', // or 'PATCH' depending on your Django viewset
+      headers: isFormData
+        ? {} // Let browser auto-set multipart boundary for FormData
+        : { 'Content-Type': 'application/json' },
+      body: isFormData ? data : JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(JSON.stringify(errorData));
+    }
+    return response.json();
+  },
   deleteProduct: (id: number) => fetcher<void>(`products/${id}`, { method: 'DELETE' }),
   quickUpdateStock: (id: number, stock: number) => fetcher<Product>(`products/${id}/update_stock`, { method: 'PATCH', body: JSON.stringify({ stock }) }),
 
