@@ -48,22 +48,29 @@ export interface Employee {
   employee_id: string; // "EMP-101" unique code
   name: string;
   designation: string;
+  phone: string;
+  address: string;
   salary: string;
   role: 'ADMIN' | 'MANAGER' | 'STAFF';
 }
 
-export interface DashboardResponse {
-  overview: {
-    total_sales_amount: string;
-    completed_orders_count: number;
-    total_stock_units: number;
-    low_stock_count: number;
-  };
-  sales_report: Array<{
-    product__id: number;
-    product__name: string;
-    total_quantity_sold: number;
-    total_revenue: string;
-  }>;
+// Dashboard Report Schemas
+export interface SalesReportItem {
+  product__id: number;
+  product__name: string;
+  total_quantity_sold: number;
+  total_revenue: number;
+}
+
+export interface DashboardOverview {
+  total_sales_amount: number;
+  completed_orders_count: number;
+  total_stock_units: number;
+  low_stock_count: number;
+}
+
+export interface DashboardData {
+  overview: DashboardOverview;
+  sales_report: SalesReportItem[];
   low_stock_products: Product[];
 }

@@ -1,4 +1,4 @@
-import { Category, Product, Order, Employee, DashboardResponse } from './types';
+import { Category, Product, Order, Employee, DashboardData } from './types';
 
 // Normalize the base URL from env variables and ensure NO trailing slash here
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://192.168.0.199:8000/api')
@@ -59,8 +59,8 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
  * Clean Invanio API implementation
  */
 export const api = {
-  // Dashboard Metrics
-  getDashboard: (threshold = 10) => fetcher<DashboardResponse>(`dashboard?threshold=${threshold}`),
+  // --- Dashboard ---
+  getDashboardData: (): Promise<DashboardData> => fetcher<DashboardData>('/dashboard/'),
 
   // Products CRUD
   getProducts: () => fetcher<Product[]>('products'),
